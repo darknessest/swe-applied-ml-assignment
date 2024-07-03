@@ -1,4 +1,4 @@
-from openai import OpenAI, Stream
+from openai import OpenAI, Stream, AsyncOpenAI, AsyncStream
 from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam, \
     ChatCompletionChunk, ChatCompletionToolMessageParam, ChatCompletionAssistantMessageParam, \
     ChatCompletionFunctionMessageParam
@@ -14,6 +14,8 @@ client = OpenAI(
     # Defaults to os.environ.get("OPENAI_API_KEY")
     # Otherwise use: api_key="Your_API_Key",
 )
+
+async_client = AsyncOpenAI()
 
 class SarcasmDetection(BaseModel):
     """
@@ -123,19 +125,19 @@ async def prompt_llm_async(
         user_message_content: str,
         existing_messages: list[OpenAIMessageType] | None = None,
         model: str = DEFAULT_MODEL
-) -> Stream[ChatCompletionChunk]:
+) -> AsyncStream[ChatCompletionChunk]:
     """
     Asynchronously send a new user message string to the LLM and get back a response.
 
     :param user_message_content: the string of the user message
     :param existing_messages: an optional list of existing messages
     :param model: the OpenAI model
-    :return: a Stream of ChatCompletionChunk instances
+    :return: an AsyncStream of ChatCompletionChunk instances
     """
 
     messages, functions = _build_chat_completion_payload(user_message_content=user_message_content,
                                                          existing_messages=existing_messages)
-    stream = client.chat.completions.create(
+    stream = async_client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=messages,
         functions=functions,
