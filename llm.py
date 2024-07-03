@@ -1,3 +1,5 @@
+from typing import Coroutine
+
 from openai import OpenAI, Stream, AsyncOpenAI, AsyncStream
 from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam, \
     ChatCompletionChunk, ChatCompletionToolMessageParam, ChatCompletionAssistantMessageParam, \
@@ -128,7 +130,7 @@ async def prompt_llm_async(
         user_message_content: str,
         existing_messages: list[OpenAIMessageType] | None = None,
         model: str = DEFAULT_MODEL
-) -> AsyncStream[ChatCompletionChunk]:
+) -> Coroutine[AsyncStream[ChatCompletionChunk]]:
     """
     Asynchronously send a new user message string to the LLM and get back a response.
 
