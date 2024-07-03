@@ -54,7 +54,7 @@ class ChatHistory:
             )
             self.__conn.commit()
 
-    def get_messages(self, chat_id: str):
+    def get_messages(self, chat_id: str) -> list[tuple[str, str, str]]:
         """
         Get all messages for a given chat_id, in order of creation (increasing).
         """
