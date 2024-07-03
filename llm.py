@@ -138,7 +138,7 @@ async def prompt_llm_async(
     messages, functions = _build_chat_completion_payload(user_message_content=user_message_content,
                                                          existing_messages=existing_messages)
     stream = async_client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model=model,
         messages=messages,
         functions=functions,
         stream=True
