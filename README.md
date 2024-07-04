@@ -1,5 +1,33 @@
 # SWE, Backend & Applied ML take-home assignment
 
+## Comments
+
+### General
+
+I've implemented the features requested in the assignment, without going beyond what was asked, e.g., optional arguments that could be passed to the OpenAI's API when calling chat completion.
+
+I've used SQLite for data persistence. And an additional set of operations to handle r/w operations on the database. 
+For the sake of simplicity, I've implemented the bare minimum of operations to handle the chat sessions and messages.
+
+In order to minimize webserver hangups due to long-running (CPU/IO-bound) operations:
+- I've moved message insertion to the database to a separate process, assuming the high volume of messages that could be processed by the server.
+- All the other database-related operations are run in a separate thread with the `anyio.to_thread.run_sync` function.
+
+I also took liberty to add a couple of dependencies to the project:
+- `loguru`: a lightweight logging library that provides a more user-friendly API than the built-in `logging` module.
+- `pydantic-settings`: a library that provides a way to manage application settings using Pydantic models. It also provides a way to load settings from environment variables, `.env` files, and other sources.
+
+### Improvements
+
+There are quite a few improvements that could be done to make the project more robust and production-ready:
+
+- Chat creation could be separated in a different endpoint, so that chat id is generated separately from the chat itself. This would allow us to re-use data schemas instead of appending the chat id to the chunk completion schema.
+- An autonomous database (instead file-based) could be used to store chat sessions and messages. This would allow the server to be more (horizontally) scalable and fault-tolerant.
+- Async database drivers could be used to improve the performance.
+
+
+## Introduction
+
 The goal of this take-home assignment is to assess aptitude for back-end engineering with tools and technologies that we use every day:
 
 - OpenAI Python SDK (making calls to GPT-3.5/4/etc)
