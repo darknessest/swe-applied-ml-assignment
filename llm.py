@@ -7,7 +7,7 @@ from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUs
 from openai.types.chat.completion_create_params import Function as ChatCompletionFunction
 from pydantic import BaseModel, Field
 
-from settings import Settings
+from configs.settings import Settings
 
 OpenAIMessageType = (ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam |
                      ChatCompletionAssistantMessageParam | ChatCompletionToolMessageParam |

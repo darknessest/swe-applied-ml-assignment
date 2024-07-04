@@ -17,7 +17,7 @@ from starlette.responses import JSONResponse
 from db.history import ChatMessage
 from db.ops import get_chat_messages, insert_chat_message, insertion_worker
 from llm import prompt_llm_async
-from settings import Settings
+from configs.settings import Settings
 
 # Set up logging
 logger.remove()
