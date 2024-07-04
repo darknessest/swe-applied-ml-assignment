@@ -10,6 +10,10 @@ def get_chat_messages(chat_id: str, lock: "mp.Lock") -> list[ChatMessage]:
     """
     Get all chat messages for a given chat_id.
     In a separate function to be able to run it in a separate thread.
+
+    Args:
+        chat_id (str): The chat id.
+        lock (mp.Lock): The lock to use for the chat history.
     """
     logger.debug(f"Getting chat messages for chat_id: {chat_id}")
     with lock:
@@ -21,6 +25,11 @@ def insert_chat_message(chat_id: str, message: ChatMessage, lock: "mp.Lock"):
     """
     Insert a chat message into the chat history.
     In a separate function to be able to run it in a separate thread.
+
+    Args:
+        chat_id (str): The chat id.
+        message (ChatMessage): The message to insert.
+        lock (mp.Lock): The lock to use for the chat history.
     """
     logger.debug(f"Inserting chat message: {message} for chat_id: {chat_id}")
     with lock:
@@ -31,6 +40,12 @@ def insert_chat_message(chat_id: str, message: ChatMessage, lock: "mp.Lock"):
 def insertion_worker(queue: "mp.Queue", lock: "mp.Lock"):
     """
     Worker function to concatenate chunks and insert messages into the chat history.
+    Is separate from the main process to avoid blocking the server.
+
+    Args:
+        queue (mp.Queue): The queue to get the chunks from.
+        lock (mp.Lock): The lock to use for the chat history.
+
     """
     tmp_dict = dict()
 

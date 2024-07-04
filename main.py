@@ -74,6 +74,21 @@ async def stream_example():
 
 @app.post("/chat", response_class=JSONResponse)
 async def chat(message: str, chat_id: str | None = None):
+    """Route to chat with the model.
+    The user message is inserted into the chat history and then streamed to the model.
+    The model's responses are then streamed back to the user.
+    If chat_id is not provided, a new chat_id is generated, and returned to the user.
+    If chat_id is provided, the chat history is loaded and passed to the model.
+
+
+
+    Args:
+        message (str): The user message.
+        chat_id (str | None, optional): chat id to continue dialogue. Defaults to None.
+
+    Returns:
+        EventSourceResponse: The model responses cast to json and streamed to the client.
+    """
 
     async def stream_tokens(
         user_message_content: str, existing_messages: list, chat_id: str
@@ -123,8 +138,13 @@ async def chat(message: str, chat_id: str | None = None):
 
 @app.post("/chat-history")
 async def get_chat_history(chat_id: str) -> list[ChatMessage]:
-    """
-    Get all chat messages for a given chat_id.
+    """Route to get the chat history for a given chat_id.
+
+    Args:
+        chat_id (str): The chat id.
+
+    Returns:
+        list[ChatMessage]: The chat history.
     """
 
     try:

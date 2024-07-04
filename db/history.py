@@ -12,6 +12,10 @@ class ChatMessage(BaseModel):
 
 
 class ChatHistory:
+    """
+    Class to handle the chat history database.
+    """
+
     def __init__(self, db_path: str = "data/chat_history.db"):
         self.__db_path = db_path
         # create parent directory if it doesn't exist
@@ -24,6 +28,9 @@ class ChatHistory:
         self.__create_index()
 
     def __init_table(self):
+        """
+        Create the chat_history table.
+        """
         logger.debug("Initializing chat_history table")
         self.__cursor.execute(
             """
@@ -38,6 +45,9 @@ class ChatHistory:
         self.__conn.commit()
 
     def __create_index(self):
+        """
+        Create an index on the chat_id column.
+        """
         logger.debug("Initializing chat_id index")
         self.__cursor.execute(
             """
@@ -47,6 +57,12 @@ class ChatHistory:
         self.__conn.commit()
 
     def add_message(self, chat_id: str, message: ChatMessage):
+        """Add a message to the chat history.
+
+        Args:
+            chat_id (str): The chat id.
+            message (ChatMessage): The message to add.
+        """
         self.__cursor.execute(
             """
             INSERT INTO chat_history (chat_id, role, content, created)
@@ -59,6 +75,9 @@ class ChatHistory:
     def get_messages(self, chat_id: str) -> list[ChatMessage]:
         """
         Get all messages for a given chat_id, in order of creation (increasing).
+
+        Args:
+            chat_id (str): The chat id.
         """
         self.__cursor.execute(
             """
@@ -75,6 +94,9 @@ class ChatHistory:
         ]
 
     def close(self):
+        """
+        Close the database connection.
+        """
         self.__conn.close()
 
 
