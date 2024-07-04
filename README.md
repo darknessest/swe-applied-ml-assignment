@@ -24,6 +24,7 @@ There are quite a few improvements that could be done to make the project more r
 - Chat creation could be separated in a different endpoint, so that chat id is generated separately from the chat itself. This would allow us to re-use data schemas instead of appending the chat id to the chunk completion schema.
 - An autonomous database (instead file-based) could be used to store chat sessions and messages. This would allow the server to be more (horizontally) scalable and fault-tolerant.
 - Async database drivers could be used to improve the performance.
+- Better ChatGPT function call handling. How to store function reponses if that all.
 
 
 ## Introduction
